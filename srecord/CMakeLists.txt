@@ -15,6 +15,8 @@ CHECK_INCLUDE_FILES (sys/stat.h HAVE_SYS_STAT_H)
 CHECK_INCLUDE_FILES (sys/types.h HAVE_SYS_TYPES_H)
 CHECK_INCLUDE_FILES (unistd.h HAVE_UNISTD_H)
 
+check_include_files(boost/shared_ptr.hpp HAVE_BOOST_SHARED_PTR_HPP)
+
 check_function_exists(snprintf HAVE_SNPRINTF)
 check_function_exists(vsnprintf HAVE_VSNPRINTF)
 

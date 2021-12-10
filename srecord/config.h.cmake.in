@@ -28,7 +28,7 @@
 #undef CONF_SHELL
 
 /* Define to 1 if you have the <boost/shared_ptr.hpp> header file. */
-#undef HAVE_BOOST_SHARED_PTR_HPP
+#cmakedefine HAVE_BOOST_SHARED_PTR_HPP 1
 
 /* Define this symbol if your operating system has a libgcrypt that defines
    the gcry_md_hd_t symbol. */
