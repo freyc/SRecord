@@ -49,7 +49,7 @@ private:
       * @param seed_mode
       *     How to calculate the initial seed.
       */
-    memory_walker_crc32(crc32::seed_mode_t seed_mode);
+    memory_walker_crc32(const crc32::config& crc_config);
 
 public:
     /**
@@ -59,7 +59,7 @@ public:
       * @param seed_mode
       *     How to calculate the initial seed.
       */
-    static pointer create(crc32::seed_mode_t seed_mode);
+    static pointer create(const crc32::config& crc_config);
 
     /**
       * The get method is used to get the CRC32 checksum once all memory

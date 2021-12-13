@@ -32,11 +32,23 @@ namespace srecord
 class crc32
 {
 public:
+
+    struct config 
+    {
+        unsigned long poly;
+        unsigned long seed;
+        unsigned long final_xor;
+    };
+
     enum seed_mode_t
     {
         seed_mode_ccitt, // all ones
         seed_mode_xmodem // all zero
     };
+
+    static const unsigned long DEFAULT_POLY = 0xedb88320;
+
+    static const config DEFAULT_CONFIG;
 
     /**
       * The destructor.
@@ -46,8 +58,18 @@ public:
     /**
       * The default constructor.
       */
+    crc32(const config& crc_config);
+#if 0
+    /**
+      * The default constructor.
+      */
     crc32(seed_mode_t seed_mode = seed_mode_ccitt);
 
+    /**
+      * The default constructor.
+      */
+    crc32(seed_mode_t seed_mode, unsigned long poly);
+#endif
     /**
       * The copy constructor.
       */
@@ -80,6 +102,8 @@ private:
       * value of the 32-bit cyclic redundancy check.
       */
     unsigned long state;
+
+    config cfg;
 };
 
 };

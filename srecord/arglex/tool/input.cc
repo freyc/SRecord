@@ -105,6 +105,7 @@ srecord::arglex_tool::get_endian_by_token(int tok)
     case token_checksum_be_positive:
     case token_crc16_be:
     case token_crc32_be:
+    case token_crc32_custom_be:
     case token_exclusive_length_be:
     case token_exclusive_maximum_be:
     case token_exclusive_minimum_be:
@@ -126,6 +127,7 @@ srecord::arglex_tool::get_endian_by_token(int tok)
     case token_checksum_le_positive:
     case token_crc16_le:
     case token_crc32_le:
+    case token_crc32_custom_le:
     case token_exclusive_length_le:
     case token_exclusive_maximum_le:
     case token_exclusive_minimum_le:
@@ -671,6 +673,24 @@ srecord::arglex_tool::get_input()
                 unsigned long address;
                 get_address(name, address);
                 ifp = input_filter_message_crc32::create(ifp, address, end);
+            }
+            break;
+
+        case token_crc32_custom_be:
+        case token_crc32_custom_le:
+            {
+                const char *name = token_name();
+                endian_t end = get_endian_by_token();
+                token_next();
+
+                unsigned long poly;
+                poly = get_number("polynom", 0, 0xffffffff);
+                //fatal_error("poly: %d", poly);
+                
+                unsigned long address;
+                get_address(name, address);
+                //ifp = input_filter_message_crc32::create(ifp, address, end);
+                ifp = input_filter_message_crc32::create(ifp, address, end, srecord::crc32::DEFAULT_CONFIG);
             }
             break;
 

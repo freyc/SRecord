@@ -52,7 +52,7 @@ private:
       *     The byte order.
       */
     input_filter_message_crc32(const input::pointer &deeper,
-        unsigned long address, endian_t end);
+        unsigned long address, endian_t end, const srecord::crc32::config& crc_config);
 
 public:
     /**
@@ -67,7 +67,7 @@ public:
       *     The byte order.
       */
     static pointer create(const input::pointer &deeper, unsigned long address,
-        endian_t end);
+        endian_t end, const srecord::crc32::config& crc_config = srecord::crc32::DEFAULT_CONFIG);
 
 protected:
     // See base class for documentation.
@@ -97,7 +97,7 @@ private:
       * user wants for the initial seed.  The default is to use the
       * standard CCITT seed.
       */
-    crc32::seed_mode_t seed_mode;
+    crc32::config config;
 
     /**
       * The default constructor.  Do not use.

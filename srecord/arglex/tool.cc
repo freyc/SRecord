@@ -87,6 +87,8 @@ srecord::arglex_tool::arglex_tool(int argc, char **argv) :
         { "-Cyclic_Redundancy_Check_16_XMODEM", token_crc16_xmodem,},
         { "-Cyclic_Redundancy_Check_32_Big_Endian", token_crc32_be, },
         { "-Cyclic_Redundancy_Check_32_Little_Endian", token_crc32_le,},
+        { "-Cyclic_Redundancy_Check_32_Custom_Big_Endian", token_crc32_custom_be, },
+        { "-Cyclic_Redundancy_Check_32_Custom_Little_Endian", token_crc32_custom_le,},
         { "-C_Array", token_c_array, },
         { "-C_COMpressed", token_c_compressed, },
         { "-DECimal_STyle", token_style_hexadecimal_not, },

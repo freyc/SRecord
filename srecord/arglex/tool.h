@@ -85,6 +85,8 @@ public:
         token_crc16_xmodem,
         token_crc32_be,
         token_crc32_le,
+        token_crc32_custom_be,
+        token_crc32_custom_le,
         token_crop,
         token_dec_binary,
         token_eeprom,

@@ -83,14 +83,14 @@ static unsigned long table[256];
 
 
 static void
-calculate_table()
+calculate_table(unsigned long polynomial)
 {
     for (unsigned b = 0; b < 256; ++b)
     {
         unsigned long v = b;
         int i = 8;
         for (; --i >= 0; )
-            v = (v & 1) ? ((v >> 1) ^ POLYNOMIAL) : (v >> 1);
+            v = (v & 1) ? ((v >> 1) ^ polynomial) : (v >> 1);
         table[b] = v;
     }
 }
@@ -110,17 +110,40 @@ initial_state_from_seed_mode(srecord::crc32::seed_mode_t seed_mode)
     return ccitt_seed;
 }
 
+const srecord::crc32::config srecord::crc32::DEFAULT_CONFIG  = 
+{
+    0xedb88320,
+    0xffffffff,
+    0xffffffff
+};
 
+#if 0
 srecord::crc32::crc32(seed_mode_t seed_mode) :
-    state(initial_state_from_seed_mode(seed_mode))
+    state(initial_state_from_seed_mode(seed_mode)), polynomial(POLYNOMIAL)
 {
     if (!table[1])
-        calculate_table();
+        calculate_table(polynomial);
+}
+#endif
+
+srecord::crc32::crc32(const config& crc_config) :
+    state(cfg.seed), cfg(crc_config)
+{
+    if (!table[1])
+        calculate_table(cfg.poly);
 }
 
+#if 0
+srecord::crc32::crc32(seed_mode_t seed_mode, unsigned long poly) :
+    state(initial_state_from_seed_mode(seed_mode)), polynomial(poly)
+{
+    if (!table[1])
+        calculate_table(polynomial);
+}
+#endif
 
 srecord::crc32::crc32(const crc32 &arg) :
-    state(arg.state)
+    state(arg.state), cfg(arg.cfg)
 {
 }
 
@@ -174,7 +197,7 @@ srecord::crc32::get()
     const
 {
 #if 1
-    return ~state;
+    return state ^ cfg.final_xor;
 #else
     //
     // The crc_32.c program floating around on the Internet prints

@@ -31,27 +31,26 @@ srecord::input_filter_message_crc32::~input_filter_message_crc32()
 srecord::input_filter_message_crc32::input_filter_message_crc32(
     const input::pointer &a_deeper,
     unsigned long a_address,
-    endian_t a_end
+    endian_t a_end, 
+    const srecord::crc32::config& crc_config
 ) :
     input_filter_message(a_deeper),
     address(a_address),
     end(a_end),
-    seed_mode(crc32::seed_mode_ccitt)
+    config(crc_config)
 {
 }
 
-
 srecord::input::pointer
 srecord::input_filter_message_crc32::create(const input::pointer &a_deeper,
-    unsigned long a_address, endian_t a_end)
+    unsigned long a_address, endian_t a_end, const srecord::crc32::config& crc_config)
 {
     return
         pointer
         (
-            new input_filter_message_crc32(a_deeper, a_address, a_end)
+            new input_filter_message_crc32(a_deeper, a_address, a_end, crc_config)
         );
 }
-
 
 void
 srecord::input_filter_message_crc32::command_line(arglex_tool *cmdln)
@@ -61,12 +60,12 @@ srecord::input_filter_message_crc32::command_line(arglex_tool *cmdln)
         switch (cmdln->token_cur())
         {
         case arglex_tool::token_crc16_xmodem:
-            seed_mode = crc32::seed_mode_xmodem;
+            config.seed = crc32::seed_mode_xmodem;
             cmdln->token_next();
             break;
 
         case arglex_tool::token_crc16_ccitt:
-            seed_mode = crc32::seed_mode_ccitt;
+            config.seed = crc32::seed_mode_ccitt;
             cmdln->token_next();
             break;
 
@@ -86,7 +85,7 @@ srecord::input_filter_message_crc32::process(const memory &input,
     // (Holes are ignored, not filled, warning already issued.)
     //
     memory_walker_crc32::pointer w =
-        memory_walker_crc32::create(seed_mode);
+                memory_walker_crc32::create(config);
     input.walk(w);
     unsigned long crc = w->get();
 
