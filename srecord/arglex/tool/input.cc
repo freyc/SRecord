@@ -685,12 +685,16 @@ srecord::arglex_tool::get_input()
 
                 unsigned long poly;
                 poly = get_number("polynom", 0, 0xffffffff);
-                //fatal_error("poly: %d", poly);
+
+                unsigned long seed;
+                seed = get_number("seed", 0, 0xffffffff);
+
+                unsigned long final_xor;
+                final_xor = get_number("seed", 0, 0xffffffff);
                 
                 unsigned long address;
                 get_address(name, address);
-                //ifp = input_filter_message_crc32::create(ifp, address, end);
-                ifp = input_filter_message_crc32::create(ifp, address, end, srecord::crc32::DEFAULT_CONFIG);
+                ifp = input_filter_message_crc32::create(ifp, address, end, {poly, seed, final_xor});
             }
             break;
 

@@ -127,7 +127,7 @@ srecord::crc32::crc32(seed_mode_t seed_mode) :
 #endif
 
 srecord::crc32::crc32(const config& crc_config) :
-    state(cfg.seed), cfg(crc_config)
+    state(crc_config.seed), cfg(crc_config)
 {
     if (!table[1])
         calculate_table(cfg.poly);
